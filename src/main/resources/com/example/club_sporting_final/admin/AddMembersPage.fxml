@@ -6,75 +6,56 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
+<AnchorPane prefHeight="500.0" prefWidth="480.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.AddMemberController">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="630.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.AddMemberController">
-   <children>
-      <VBox alignment="CENTER" layoutX="-1.0" layoutY="-6.0" prefHeight="410.0" prefWidth="600.0" spacing="10" stylesheets="@Styles.css" AnchorPane.leftAnchor="10.0">
-         <children>
-            <Label alignment="CENTER" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;" text="Member Details" />
-            <GridPane hgap="10" vgap="10">
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
-               <children>
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Name:" />
-                  <TextField fx:id="nameField" promptText="Enter member's name" GridPane.columnIndex="1" />
-                  <Label fx:id="nameErrorLabel" style="-fx-text-fill: red;" text="Name must not be empty." visible="false" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Email:" GridPane.rowIndex="1" />
-                  <TextField fx:id="emailField" promptText="Enter email address" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="emailErrorLabel" style="-fx-text-fill: red;" text="Invalid email format." visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Phone Number:" GridPane.rowIndex="2" />
-                  <TextField fx:id="phoneField" promptText="Enter phone number" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="phoneErrorLabel" style="-fx-text-fill: red;" text="Phone must be 10 digits." visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Subscription Active:" GridPane.rowIndex="3" />
-                  <CheckBox fx:id="subscriptionStatus" styleClass="dialog-pane" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Team:" GridPane.rowIndex="4" />
-                  <ChoiceBox fx:id="teamChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="teamErrorLabel" style="-fx-text-fill: red;" text="Please select a team." visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Subscription Plan:" GridPane.rowIndex="5" />
-                  <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                     <children>
-                        <RadioButton fx:id="monthlyPlan" styleClass="choice-box" text="Monthly" />
-                        <RadioButton fx:id="quarterlyPlan" styleClass="choice-box" text="Quarterly" />
-                        <RadioButton fx:id="yearlyPlan" styleClass="choice-box" text="Yearly" />
-                     </children>
-                  </HBox>
-                  <Label fx:id="planErrorLabel" style="-fx-text-fill: red;" text="Please select a plan." visible="false" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-               </children>
-            </GridPane>
-            <HBox alignment="CENTER_RIGHT" spacing="10">
-               <children>
-                  <Button fx:id="saveButton" onAction="#handleSave" text="Save">
-                     <tooltip>
-                        <Tooltip text="Save the member details." />
-                     </tooltip>
-                  </Button>
-                  <Button fx:id="cancelButton" onAction="#handleCancel" text="Cancel">
-                     <tooltip>
-                        <Tooltip text="Cancel and close the form." />
-                     </tooltip>
-                  </Button>
-               </children>
+   <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 30;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+      <Label text="➕  Add New Member" styleClass="header-label"/>
+
+      <VBox spacing="15" styleClass="form-card">
+         <VBox spacing="5">
+            <Label text="Full Name" styleClass="category"/>
+            <TextField fx:id="nameField" promptText="Enter full name"/>
+         </VBox>
+
+         <VBox spacing="5">
+            <Label text="Email Address" styleClass="category"/>
+            <TextField fx:id="emailField" promptText="example@email.com"/>
+         </VBox>
+
+         <VBox spacing="5">
+            <Label text="Phone Number" styleClass="category"/>
+            <TextField fx:id="phoneField" promptText="11 digits"/>
+         </VBox>
+
+         <VBox spacing="5">
+            <Label text="Assign Team" styleClass="category"/>
+            <ChoiceBox fx:id="teamChoiceBox" prefWidth="400"/>
+         </VBox>
+
+         <VBox spacing="10" style="-fx-padding: 10 0 0 0;">
+            <CheckBox fx:id="subscriptionStatus" text="Activate Subscription Plan" style="-fx-font-weight: bold;"/>
+            <HBox spacing="15" style="-fx-padding: 0 0 0 25;">
+               <RadioButton fx:id="monthlyPlan" text="Monthly ($50)"/>
+               <RadioButton fx:id="quarterlyPlan" text="Quarterly ($150)"/>
+               <RadioButton fx:id="yearlyPlan" text="Yearly ($500)"/>
             </HBox>
-         </children>
+         </VBox>
       </VBox>
-   </children>
+
+      <HBox alignment="CENTER" spacing="15">
+         <Button fx:id="cancelButton" onAction="#handleCancel" text="Cancel" prefHeight="38" prefWidth="120"/>
+         <Button fx:id="saveButton" onAction="#handleSave" text="Save Member" styleClass="primary-button" prefHeight="38" prefWidth="160"/>
+      </HBox>
+
+   </VBox>
 </AnchorPane>

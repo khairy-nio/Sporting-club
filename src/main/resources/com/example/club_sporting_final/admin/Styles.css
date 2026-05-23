@@ -1,246 +1,270 @@
-/* Root Style - General Background */
+/* ==========================================================================
+   Light Bootstrap Dashboard (Zeno) Theme for JavaFX
+   ========================================================================== */
+
+/* Root Window Background */
 .root {
-    -fx-background-color: #2b2b2b; /* Dark grey background for the application */
+    -fx-background-color: #f8f9fa;
+    -fx-font-family: "Helvetica Neue", "Arial", sans-serif;
 }
 
-/* Labels */
+/* ==========================================================================
+   Typography & Labels
+   ========================================================================== */
+
 .label {
-    -fx-text-fill: #e0e0e0; /* Light gray text for better readability */
+    -fx-text-fill: #333333;
     -fx-font-size: 14px;
 }
 
-.label.header {
-    -fx-font-size: 24px; /* Larger text for headers */
-    -fx-font-weight: bold;
-    -fx-text-fill: #ffa726; /* Highlighted orange for headers */
-    -fx-alignment: center;
+/* Page Titles */
+.label.header, .header-label, .app-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #333333;
 }
 
-/* TextFields and ComboBoxes */
-.text-field, .combo-box, .choice-box {
-    -fx-background-color: #3c3f41; /* Slightly lighter dark background */
-    -fx-text-fill: #ffffff; /* White text */
-    -fx-border-color: #555555; /* Subtle border for input fields */
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 8;
+/* Subtitles/Category text */
+.category {
+    -fx-text-fill: #9A9A9A;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
 }
 
-.text-field:focused, .combo-box:focused, .choice-box:focused {
-    -fx-border-color: #ffa726; /* Highlighted orange border on focus */
-    -fx-background-color: #3c3f41;
-    -fx-effect: dropshadow(gaussian, rgba(255,165,0,0.5), 6, 0.3, 0, 2);
+.error-label {
+    -fx-text-fill: #FF4A55;
+    -fx-font-size: 13px;
 }
 
-.text-field:hover, .combo-box:hover, .choice-box:hover {
-    -fx-border-color: #607d8b; /* Lighter grey border on hover */
+/* ==========================================================================
+   Layout Containers (Cards)
+   ========================================================================== */
+
+/* Navigation Sidebar Pane */
+.nav-pane {
+    -fx-background-color: linear-gradient(to bottom, #1E1D2D, #12121C);
 }
 
-/* Buttons */
+.nav-pane .label {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* The white content container/card */
+.card, .form-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #e3e3e3;
+    -fx-border-width: 1px;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
+}
+
+.content-area {
+    -fx-background-color: transparent;
+    -fx-padding: 30;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+/* Default button styling (Grey Outline) */
 .button {
-    -fx-background-color: #607d8b; /* Cool grey */
-    -fx-text-fill: white;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
+    -fx-background-color: transparent;
+    -fx-text-fill: #66615B;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-border-color: #66615B;
+    -fx-border-width: 1px;
     -fx-padding: 8 16;
     -fx-font-size: 14px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0.3, 0, 2);
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
 }
 
 .button:hover {
-    -fx-background-color: #ffa726; /* Highlight in orange on hover */
-    -fx-text-fill: #000000; /* Black text for contrast */
-    -fx-effect: dropshadow(gaussian, rgba(255,165,0,0.5), 6, 0.3, 0, 4); /* Slight shadow effect */
+    -fx-background-color: #66615B;
+    -fx-text-fill: #FFFFFF;
 }
 
-.button:pressed {
-    -fx-background-color: #ff7043; /* Slightly darker orange */
-    -fx-text-fill: #000000; /* Black text */
-}
-
-/* Checkboxes and Radio Buttons */
-.check-box, .radio-button {
-    -fx-text-fill: #e0e0e0; /* Light text for readability */
-}
-
-.check-box:focused, .radio-button:focused {
-    -fx-border-color: #ffa726; /* Highlight in orange when focused */
-}
-
-/* Tables */
-.table-view {
-    -fx-background-color: #3c3f41; /* Matches input fields for consistency */
-    -fx-border-color: #555555;
-    -fx-border-radius: 8;
-    -fx-padding: 10;
-    -fx-text-fill: #090909; /* Default text color for table */
-}
-
-.table-column-header {
-    -fx-background-color: #2b2b2b; /* Darker header background */
-    -fx-text-fill: #0b0b0b; /* Light header text */
-    -fx-font-weight: bold;
-}
-
-.table-row-cell {
-    -fx-background-color: #3c3f41; /* Default row background */
-    -fx-text-fill: #000000; /* Ensure white text for table rows */
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #323437; /* Slightly darker background for alternating rows */
-    -fx-text-fill: #ffffff; /* Ensure text remains white */
-}
-
-.table-row-cell:hover {
-    -fx-background-color: #607d8b; /* Grey background on hover */
-    -fx-text-fill: white;
-}
-
-.table-row-cell:selected {
-    -fx-background-color: #ffa726; /* Highlight selected row in orange */
-    -fx-text-fill: #000000; /* Black text for contrast */
-}
-
-.table-cell {
-    -fx-text-fill: #ffffff; /* Ensure all cell text is white */
-}
-
-/* Scrollbars */
-.scroll-bar {
-    -fx-background-color: #2b2b2b;
-}
-
-.scroll-bar .thumb {
-    -fx-background-color: #607d8b;
-}
-
-.table-column-header {
-    -fx-background-color: #2b2b2b; /* Darker header background */
-    -fx-text-fill: #000000; /* Black text for the header */
-    -fx-font-weight: bold;
-}
-
-
-.scroll-bar .thumb:hover {
-    -fx-background-color: #ffa726; /* Highlight scrollbar on hover */
-    -fx-effect: dropshadow(gaussian, rgba(255,165,0,0.5), 4, 0.3, 0, 2);
-}
-
-/* Tooltip */
-.tooltip {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-    -fx-border-color: #555555;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.3, 0, 2);
-}
-
-/* Dialogs and Alerts */
-.dialog-pane {
-    -fx-background-color: #2b2b2b; /* Dark background for dialogs */
-    -fx-border-color: #555555;
-    -fx-border-radius: 8;
-}
-
-.dialog-pane .header-panel {
-    -fx-background-color: #607d8b; /* Grey header */
-    -fx-text-fill: white;
-}
-
-.dialog-pane .content {
-    -fx-text-fill: white; /* White text */
-}
-
-.dialog-pane .button-bar .button {
-    -fx-background-color: #607d8b; /* Grey buttons */
-    -fx-text-fill: white;
-}
-
-.dialog-pane .button-bar .button:hover {
-    -fx-background-color: #ffa726;
-}
-
-/* TabPane */
-.tab-pane {
-    -fx-background-color: #2b2b2b; /* Background for tab pane */
-    -fx-border-color: #555555;
-}
-
-.tab-pane .tab-header-background {
-    -fx-background-color: #3c3f41; /* Darker tab background */
-}
-
-.tab-pane .tab {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #e0e0e0;
-}
-
-.tab-pane .tab:hover {
-    -fx-background-color: #607d8b; /* Grey hover effect */
-}
-
-.tab-pane .tab:selected {
-    -fx-background-color: #ffa726; /* Orange selected tab */
-    -fx-text-fill: #000000; /* Black text for contrast */
-    -fx-effect: dropshadow(gaussian, rgba(255,165,0,0.7), 4, 0.3, 0, 2);
-    -fx-border-color: #ff7043; /* Subtle border */
-    -fx-border-width: 1;
-}
-
-/* MenuBar */
-.menu-bar {
-    -fx-background-color: #3c3f41;
-    -fx-border-color: #555555;
-}
-
-.menu-bar .menu {
-    -fx-text-fill: #e0e0e0; /* Light menu text */
-}
-
-.menu-bar .menu:hover {
-    -fx-background-color: #607d8b;
-}
-
-/* ProgressBar and ProgressIndicator */
-.progress-bar, .progress-indicator {
-    -fx-accent: #ffa726; /* Orange progress color */
-    -fx-background-color: #3c3f41;
-    -fx-border-color: #555555;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-}
-
-/* Chart Styles */
-.chart {
+/* Primary Highlight Buttons (Teal/Info) */
+.primary-button {
     -fx-background-color: transparent;
+    -fx-text-fill: #1DC7EA;
+    -fx-border-color: #1DC7EA;
 }
 
-.chart-title {
-    -fx-text-fill: #ffffff; /* Bright white for better contrast */
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
+.primary-button:hover {
+    -fx-background-color: #1DC7EA;
+    -fx-text-fill: #FFFFFF;
 }
 
-.axis-label {
-    -fx-text-fill: #ffffff; /* Bright white for axis labels */
+/* Logout & Danger Buttons (Red) */
+.logout-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FF4A55;
+    -fx-border-color: #FF4A55;
+}
+
+.logout-button:hover {
+    -fx-background-color: #FF4A55;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Success Button (Green) */
+.success-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #87CB16;
+    -fx-border-color: #87CB16;
+}
+.success-button:hover {
+    -fx-background-color: #87CB16;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Warning Button (Orange) */
+.warning-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FF9500;
+    -fx-border-color: #FF9500;
+}
+.warning-button:hover {
+    -fx-background-color: #FF9500;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Sidebar nav button (No border, white text, teal on active/hover) */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-alignment: center-left;
+    -fx-padding: 10 15;
     -fx-font-size: 14px;
 }
 
-.axis {
-    -fx-tick-label-fill: #ffffff; /* Bright white for tick labels */
-    -fx-label-fill: #ffffff; /* Bright white for axis labels */
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: #1DC7EA;
 }
 
-.legend {
-    -fx-background-color: transparent; /* Transparent background for legend */
-    -fx-text-fill: #000000; /* Bright white for legend text */
+.nav-button:focused {
+    -fx-text-fill: #1DC7EA;
 }
 
-.legend-item-symbol {
-    -fx-background-color: rgba(255, 255, 255, 0); /* Match background */
+/* ==========================================================================
+   Form Fields (TextFields, ComboBoxes, ChoiceBoxes)
+   ========================================================================== */
+
+.text-field, .password-field, .combo-box, .choice-box {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #565656;
+    -fx-prompt-text-fill: #DDDDDD;
+    -fx-border-color: #E3E3E3;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
 }
 
-/* Additional Global Label Styles */
-.label {
-    -fx-text-fill: #000000; /* White text globally for labels */
+.text-field:focused, .password-field:focused, .combo-box:focused, .choice-box:focused {
+    -fx-border-color: #1DC7EA;
+    -fx-background-color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Table Views
+   ========================================================================== */
+
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3E3E3;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #E3E3E3 transparent;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #9A9A9A;
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}
+
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-cell-size: 40px;
+    -fx-border-color: #E3E3E3 transparent transparent transparent;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FFFFFF; /* Light bootstrap uses plain white for all rows */
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #1DC7EA;
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-cell {
+    -fx-text-fill: inherit;
+    -fx-alignment: center-left;
+    -fx-padding: 0 10;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* ==========================================================================
+   Checkboxes & Radio Buttons
+   ========================================================================== */
+
+.check-box, .radio-button {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+.check-box .box, .radio-button .radio {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3E3E3;
+    -fx-border-radius: 2px;
+}
+
+.radio-button .radio {
+    -fx-border-radius: 10px;
+}
+
+.check-box:selected .box, .radio-button:selected .radio {
+    -fx-background-color: #1DC7EA;
+    -fx-border-color: #1DC7EA;
+}
+
+/* Scrollbars */
+.scroll-bar .thumb {
+    -fx-background-color: #DDDDDD;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #9A9A9A;
 }

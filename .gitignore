@@ -36,3 +36,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Local database & temp outputs
+*.db
+*.db-journal
+Financial_Report.txt

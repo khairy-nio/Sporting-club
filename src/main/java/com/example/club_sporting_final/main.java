@@ -16,7 +16,7 @@ public class main extends Application {
         FXMLLoader loader = new FXMLLoader(fxmlUrl);
         Scene scene = new Scene(loader.load());
 
-        stage.setTitle("Sporting Club Management");
+        stage.setTitle("Sport Hub");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

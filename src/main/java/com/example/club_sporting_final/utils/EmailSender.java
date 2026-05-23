@@ -9,45 +9,56 @@ import java.util.Properties;
 
 public class EmailSender {
 
-    private static final String SENDER_EMAIL = System.getenv("SENDER_EMAIL");
+    private static final String DEFAULT_SENDER_EMAIL = "3bdhmeed@gmail.com";
+    private static final String SENDER_EMAIL = System.getenv("SENDER_EMAIL") != null && !System.getenv("SENDER_EMAIL").isBlank()
+            ? System.getenv("SENDER_EMAIL")
+            : DEFAULT_SENDER_EMAIL;
     private static final String SENDER_PASSWORD = "tqkr rmek cmzl spql";
 
-
-    public static void sendEmail(String recipient, String subject, String messageBody) throws MessagingException {
+    /**
+     * Sends an email. Returns true if sent successfully, false otherwise.
+     * Uses a boolean return so callers don't need to handle checked exceptions.
+     */
+    public static boolean sendEmail(String recipient, String subject, String messageBody) {
+        if (SENDER_EMAIL == null || SENDER_EMAIL.isBlank()) {
+            System.err.println("Warning: SENDER_EMAIL is not set. Skipping email to: " + recipient);
+            return false;
+        }
         if (recipient == null || recipient.isBlank()) {
-            throw new IllegalArgumentException("Recipient email address cannot be null or empty.");
-        }
-        if (subject == null || subject.isBlank()) {
-            throw new IllegalArgumentException("Email subject cannot be null or empty.");
-        }
-        if (messageBody == null || messageBody.isBlank()) {
-            throw new IllegalArgumentException("Email message body cannot be null or empty.");
+            System.err.println("Skipping email: recipient is empty.");
+            return false;
         }
 
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(SENDER_EMAIL, SENDER_PASSWORD);
-            }
-        });
-
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(SENDER_EMAIL));
         try {
-            System.out.println("Sending email to: " + recipient); // Debugging log
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        } catch (AddressException e) {
-            throw new MessagingException("Invalid recipient email address: " + recipient, e);
-        }
-        message.setSubject(subject);
-        message.setText(messageBody);
+            Properties properties = new Properties();
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.host", "smtp.gmail.com");
+            properties.put("mail.smtp.port", "587");
 
-        Transport.send(message);
+            Session session = Session.getInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(SENDER_EMAIL, SENDER_PASSWORD);
+                }
+            });
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SENDER_EMAIL));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            message.setSubject(subject);
+            message.setText(messageBody);
+
+            Transport.send(message);
+            System.out.println("Email sent successfully to: " + recipient);
+            return true;
+
+        } catch (AddressException e) {
+            System.err.println("Invalid email address: " + recipient + " — " + e.getMessage());
+            return false;
+        } catch (MessagingException e) {
+            System.err.println("Failed to send email to " + recipient + ": " + e.getMessage());
+            return false;
+        }
     }
 }

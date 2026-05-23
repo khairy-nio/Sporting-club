@@ -276,7 +276,7 @@ public class ExpenseManagementController {
     @FXML
     private void handleBackToDashboard(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/DashBoard.fxml"));
             Scene dashboardScene = new Scene(loader.load());
 
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

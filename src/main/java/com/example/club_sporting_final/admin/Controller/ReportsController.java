@@ -80,7 +80,7 @@ public class ReportsController {
     @FXML
     private void goBackToDashboard(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/DashBoard.fxml"));
             Scene scene = new Scene(loader.load());
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.setScene(scene);
@@ -96,20 +96,21 @@ public class ReportsController {
 
         // Query to fetch subscriptions and expenses
         String query = "SELECT " +
-                "    MemberID AS Name, " +
+                "    m.Name AS Name, " +
                 "    'Income' AS Category, " +
-                "    Amount, " +
-                "    StartDate AS Date, " +
-                "    'Subscription' AS Details " +
-                "FROM subscriptions " +
+                "    s.Amount, " +
+                "    s.StartDate AS Date, " +
+                "    s.PlanType AS Details " +
+                "FROM subscriptions s " +
+                "JOIN members m ON s.MemberID = m.MemberID " +
                 "UNION ALL " +
                 "SELECT " +
-                "    ExpenseID AS Name, " +
+                "    e.ExpenseType AS Name, " +
                 "    'Expense' AS Category, " +
-                "    Amount, " +
-                "    Date, " +
+                "    e.Amount, " +
+                "    e.Date, " +
                 "    'Expense Details' AS Details " +
-                "FROM expenses";
+                "FROM expenses e";
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {

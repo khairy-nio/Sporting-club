@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import com.example.club_sporting_final.utils.DatabaseConnection;
+import com.example.club_sporting_final.utils.SessionManager;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,18 +33,25 @@ public class LoginController {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
 
-        // Debugging: Print username and raw password
-        System.out.println("Username: " + username);
-        System.out.println("Password (raw): " + password);
+        if (username.isEmpty() || password.isEmpty()) {
+            errorLabel.setText("Please enter username and password!");
+            errorLabel.setVisible(true);
+            return;
+        }
 
-        String role = validateCredentials(username, password);
+        // Try hashed login first, fall back to plain-text for legacy seeded data
+        String role = validateCredentials(username, hashPassword(password));
+        if (role == null) {
+            role = validateCredentials(username, password); // legacy fallback
+        }
 
         if (role != null) {
             System.out.println("Login successful. Role: " + role);
+            SessionManager.getInstance().login(username, role);
             if (role.equals("admin")) {
-                loadAdminDashboard();
+                loadDashboard("Sport Hub — Admin Dashboard");
             } else if (role.equals("emp")) {
-                loadEmployeeDashboard();
+                loadDashboard("Sport Hub — Employee Dashboard");
             }
         } else {
             System.out.println("Login failed.");
@@ -51,7 +59,6 @@ public class LoginController {
             errorLabel.setVisible(true);
         }
     }
-
 
     private String validateCredentials(String username, String password) {
         String query = "SELECT role FROM users WHERE username = ? AND password = ?";
@@ -71,30 +78,34 @@ public class LoginController {
         return null;
     }
 
+    /**
+     * Hashes a plain-text password using SHA-256.
+     */
+    public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 algorithm not available", e);
+        }
+    }
 
-    private void loadAdminDashboard() {
+    private void loadDashboard(String title) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/DashBoard.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Admin Dashboard");
+            stage.setTitle(title);
         } catch (Exception e) {
-            System.err.println("Error loading admin dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-    private void loadEmployeeDashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/dashboard/EmployeeDashboard.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Employee Dashboard");
-        } catch (Exception e) {
-            System.err.println("Error loading employee dashboard: " + e.getMessage());
+            System.err.println("Error loading dashboard: " + e.getMessage());
             e.printStackTrace();
         }
     }

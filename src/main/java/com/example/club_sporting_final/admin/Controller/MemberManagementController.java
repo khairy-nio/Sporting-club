@@ -67,23 +67,31 @@ public class MemberManagementController {
         deleteButton.setOnAction(e -> deleteMember());
 
         btSearch.setOnAction(e -> searchMembers());
+
+        // Double-click on a row opens the member profile
+        memberTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                openMemberProfile();
+            }
+        });
     }
 
     private void loadMembers() {
         memberList.clear();
-        String query = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus FROM Members";
+        String query = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus, TeamID FROM Members";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = connection.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                boolean subscriptionStatus = "active".equalsIgnoreCase(rs.getString("SubscriptionStatus"));
+                boolean subscriptionStatus = rs.getInt("SubscriptionStatus") == 1;
                 memberList.add(new Members(
                         rs.getInt("MemberID"),
                         rs.getString("Name"),
                         rs.getString("Email"),
                         rs.getString("PhoneNumber"),
-                        subscriptionStatus
+                        subscriptionStatus,
+                        rs.getObject("TeamID") != null ? rs.getInt("TeamID") : 0
                 ));
             }
 
@@ -103,8 +111,8 @@ public class MemberManagementController {
         }
 
         memberList.clear();
-        String queryById = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus FROM Members WHERE MemberID = ?";
-        String queryByName = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus FROM Members WHERE Name LIKE ?";
+        String queryById = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus, TeamID FROM Members WHERE MemberID = ?";
+        String queryByName = "SELECT MemberID, Name, Email, PhoneNumber, SubscriptionStatus, TeamID FROM Members WHERE Name LIKE ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             PreparedStatement stmt;
             if (searchQuery.matches("\\d+")) {
@@ -117,16 +125,15 @@ public class MemberManagementController {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                boolean subscriptionStatus = "active".equalsIgnoreCase(rs.getString("SubscriptionStatus"));
+                boolean subscriptionStatus = rs.getInt("SubscriptionStatus") == 1;
                 memberList.add(new Members(
                         rs.getInt("MemberID"),
                         rs.getString("Name"),
                         rs.getString("Email"),
                         rs.getString("PhoneNumber"),
                         subscriptionStatus,
-                        rs.getObject("TeamID") != null ? rs.getInt("TeamID") : 0 // Default to 0 if TeamID is null
+                        rs.getObject("TeamID") != null ? rs.getInt("TeamID") : 0
                 ));
-
             }
 
             if (memberList.isEmpty()) {
@@ -142,6 +149,26 @@ public class MemberManagementController {
 
     private void openAddMemberForm() {
         openForm("/com/example/club_sporting_final/admin/AddMembersPage.fxml", "Add Member");
+    }
+
+    private void openMemberProfile() {
+        Members selectedMember = memberTable.getSelectionModel().getSelectedItem();
+        if (selectedMember == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Double-click or select a member to view their profile.");
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/MemberProfile.fxml"));
+            Parent root = loader.load();
+            MemberProfileController controller = loader.getController();
+            controller.loadMember(selectedMember);
+            Stage stage = new Stage();
+            stage.setTitle("Member Profile — " + selectedMember.getName());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            showError("Navigation Error", "Could not open Member Profile: " + e.getMessage());
+        }
     }
 
     private void openEditMemberForm() {

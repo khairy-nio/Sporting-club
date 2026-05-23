@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<DialogPane stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.EditTeamController">
-    <content>
-        <VBox spacing="10">
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Edit Team" />
-            <GridPane hgap="10" vgap="10">
-                <Label text="Team Name:" />
-                <TextField fx:id="teamNameField" promptText="Edit team name" GridPane.columnIndex="1" />
+<AnchorPane prefHeight="420.0" prefWidth="480.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.EditTeamController">
 
-                <Label text="Coach Name:" GridPane.rowIndex="2" />
-                <TextField fx:id="coachNameField" promptText="Edit coach name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+   <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 30;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-                <Label text="Category:" GridPane.rowIndex="3" />
-                <ComboBox fx:id="categoryComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <columnConstraints>
-               <ColumnConstraints />
-               <ColumnConstraints />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-               <RowConstraints />
-            </rowConstraints>
-            </GridPane>
-            <HBox alignment="CENTER_RIGHT" spacing="10">
-                <Button onAction="#handleSave" text="Save" />
-                <Button onAction="#handleCancel" text="Cancel" />
-            </HBox>
-        </VBox>
-    </content>
-</DialogPane>
+      <Label text="✏️  Edit Team Details" styleClass="header-label"/>
+
+      <VBox spacing="15" styleClass="form-card">
+         <VBox spacing="5">
+            <Label text="Team Name" styleClass="category"/>
+            <TextField fx:id="teamNameField" promptText="Enter team name"/>
+         </VBox>
+
+         <VBox spacing="5">
+            <Label text="Coach Name" styleClass="category"/>
+            <TextField fx:id="coachNameField" promptText="Enter coach name"/>
+         </VBox>
+
+         <VBox spacing="5">
+            <Label text="Category" styleClass="category"/>
+            <ChoiceBox fx:id="categoryChoiceBox" prefWidth="400"/>
+         </VBox>
+      </VBox>
+
+      <HBox alignment="CENTER" spacing="15">
+         <Button onAction="#handleCancel" text="Cancel" prefHeight="38" prefWidth="120"/>
+         <Button onAction="#handleSave" text="Save Changes" styleClass="primary-button" prefHeight="38" prefWidth="160"/>
+      </HBox>
+
+   </VBox>
+</AnchorPane>

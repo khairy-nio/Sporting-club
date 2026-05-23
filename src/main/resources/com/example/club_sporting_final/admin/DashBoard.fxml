@@ -9,69 +9,138 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="474.0" prefWidth="712.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.DashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="860.0"
+            stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.DashboardController">
    <children>
-      <BorderPane layoutY="-1.0" prefHeight="474.0" prefWidth="712.0" stylesheets="@Styles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <BorderPane layoutY="0.0" prefHeight="600.0" prefWidth="860.0"
+                  stylesheets="@Styles.css"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+         <!-- ═══ TOP BRAND HEADER ═══ -->
          <top>
-            <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="800.0" spacing="10" style="-fx-alignment: center;" styleClass="header">
+            <HBox alignment="CENTER_LEFT" prefHeight="55.0" prefWidth="860.0" style="-fx-background-color: #FFFFFF; -fx-border-color: transparent transparent #E3E3E3 transparent; -fx-border-width: 1px; -fx-padding: 0 20;" spacing="10">
                <children>
-                  <Label prefHeight="50.0" prefWidth="378.0" style="-fx-alignment: center; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 30; -fx-font-style: Italic;" styleClass="app-title" text="Sportiga">
-                     <font>
-                        <Font name="System Bold Italic" size="38.0" />
-                     </font>
+                  <Label prefHeight="45.0" prefWidth="200.0" style="-fx-alignment: center-left; -fx-text-fill: #333333;"
+                         styleClass="app-title" text="Sport Hub">
+                     <font><Font name="Helvetica Neue Bold" size="24.0"/></font>
                   </Label>
                </children>
             </HBox>
          </top>
+
+         <!-- ═══ SIDEBAR NAVIGATION ═══ -->
          <left>
-            <VBox prefHeight="500.0" prefWidth="232.0" spacing="20" style="-fx-alignment: center;" styleClass="nav-pane">
+            <VBox prefHeight="545.0" prefWidth="215.0" spacing="10" styleClass="nav-pane" style="-fx-padding: 20 0;">
                <children>
-                  <Button onAction="#goToMemberManagement" prefHeight="65.0" prefWidth="200.0" text="Member Management" />
-                  <Button onAction="#goToTeamManagement" prefHeight="65.0" prefWidth="200.0" text="Team Management" />
-                  <Button onAction="#goToSubscriptionsManagement" prefHeight="65.0" prefWidth="200.0" text="Subscriptions Management" />
-                  <Button onAction="#goToExpenseManagement" prefHeight="65.0" prefWidth="200.0" text="Expense Management" />
-                  <Button onAction="#goToReports" prefHeight="65.0" prefWidth="200.0" text="Reports" />
-                  <Button onAction="#handleLogout" prefHeight="65.0" prefWidth="206.0" style="-fx-alignment: center;" styleClass="logout-button" text="Logout" />
+                  <Button onAction="#goToMemberManagement" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="👥  Member Management"/>
+                  <Button fx:id="btnTeamManagement" onAction="#goToTeamManagement" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="🏆  Team Management"/>
+                  <Button fx:id="btnSubscriptionsManagement" onAction="#goToSubscriptionsManagement" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="💳  Subscriptions"/>
+                  <Button fx:id="btnExpenseManagement" onAction="#goToExpenseManagement" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="💰  Expense Management"/>
+                  <Button fx:id="btnAttendance" onAction="#goToAttendance" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="📋  Attendance"/>
+                  <Button onAction="#goToReports" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="📊  Reports"/>
+                  <!-- Spacer -->
+                  <Region VBox.vgrow="ALWAYS"/>
+                  <Button onAction="#handleLogout" prefHeight="44.0" prefWidth="215.0" styleClass="nav-button" text="🚪  Logout"/>
                </children>
             </VBox>
          </left>
+
+         <!-- ═══ MAIN CONTENT AREA ═══ -->
          <center>
-            <VBox fx:id="contentArea" alignment="CENTER" spacing="20" styleClass="content-area">
+            <VBox fx:id="contentArea" alignment="TOP_CENTER" spacing="15" styleClass="content-area">
                <children>
-                  <HBox alignment="CENTER" spacing="20">
+
+                  <!-- ─── Expiry Alert Banner (hidden by default) ─── -->
+                  <HBox fx:id="expiryAlertBanner" alignment="CENTER_LEFT" spacing="10" visible="false" managed="false"
+                        style="-fx-background-color: #FFf0f0; -fx-background-radius: 4px;
+                               -fx-border-color: #FF4A55; -fx-border-radius: 4px;
+                               -fx-border-width: 1px; -fx-padding: 10 15;">
                      <children>
-                        <VBox alignment="CENTER" spacing="10">
+                        <Label fx:id="expiryAlertLabel"
+                               style="-fx-text-fill: #FF4A55; -fx-font-size: 13px;"
+                               text="" wrapText="true"/>
+                     </children>
+                  </HBox>
+
+                  <!-- ─── KPI SUMMARY CARDS ─── -->
+                  <HBox alignment="CENTER" spacing="15">
+                     <children>
+                        <!-- Active Members -->
+                        <VBox alignment="CENTER" spacing="6" prefWidth="148" prefHeight="90" styleClass="card">
                            <children>
-                              <Label prefHeight="20.0" prefWidth="182.0" style="-fx-alignment: center; -fx-text-fill: white; -fx-font-weight: bold;" text="Members Statistics" />
-                              <PieChart fx:id="membersChart" prefHeight="400.0" prefWidth="258.0" style="-fx-background-color: white;" />
+                              <Label styleClass="category" style="-fx-font-size: 11px;" text="ACTIVE MEMBERS"/>
+                              <Label fx:id="kpiActiveMembersLabel"
+                                     style="-fx-text-fill: #1DC7EA; -fx-font-size: 28px; -fx-font-weight: bold;" text="—"/>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" spacing="10">
+                        <!-- Monthly Revenue -->
+                        <VBox alignment="CENTER" spacing="6" prefWidth="148" prefHeight="90" styleClass="card">
                            <children>
-                              <Label prefHeight="40.0" prefWidth="163.0" style="-fx-font-weight: bold; -fx-text-fill: white; -fx-alignment: center;" styleClass="dashboard-welcome-label" text="Income This Month" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="33.0" />
-                                 </font>
-                              </Label>
-                              <BarChart fx:id="incomeChart" animated="true" prefHeight="414.0" prefWidth="327.0">
-                                 <xAxis>
-                                    <CategoryAxis fx:id="incomeXAxis" />
-                                 </xAxis>
-                                 <yAxis>
-                                    <NumberAxis fx:id="incomeYAxis" />
-                                 </yAxis>
+                              <Label styleClass="category" style="-fx-font-size: 11px;" text="MONTHLY REVENUE"/>
+                              <Label fx:id="kpiMonthlyRevenueLabel"
+                                     style="-fx-text-fill: #87CB16; -fx-font-size: 28px; -fx-font-weight: bold;" text="—"/>
+                           </children>
+                        </VBox>
+                        <!-- Monthly Expenses -->
+                        <VBox alignment="CENTER" spacing="6" prefWidth="148" prefHeight="90" styleClass="card">
+                           <children>
+                              <Label styleClass="category" style="-fx-font-size: 11px;" text="MONTHLY EXPENSES"/>
+                              <Label fx:id="kpiMonthlyExpensesLabel"
+                                     style="-fx-text-fill: #FF4A55; -fx-font-size: 28px; -fx-font-weight: bold;" text="—"/>
+                           </children>
+                        </VBox>
+                        <!-- Expiring Soon -->
+                        <VBox alignment="CENTER" spacing="6" prefWidth="148" prefHeight="90" styleClass="card">
+                           <children>
+                              <Label styleClass="category" style="-fx-font-size: 11px;" text="EXPIRING (7 DAYS)"/>
+                              <Label fx:id="kpiExpiringSoonLabel"
+                                     style="-fx-text-fill: #FF9500; -fx-font-size: 28px; -fx-font-weight: bold;" text="—"/>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+
+                  <!-- ─── CHARTS ROW ─── -->
+                  <HBox alignment="CENTER" spacing="15" VBox.vgrow="ALWAYS">
+                     <children>
+                        <!-- Members Pie Chart Card -->
+                        <VBox alignment="TOP_CENTER" spacing="10" styleClass="card" HBox.hgrow="ALWAYS" prefHeight="320.0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="Members Statistics"/>
+                              <Label styleClass="category" text="Subscription status distribution"/>
+                              <PieChart fx:id="membersChart" legendSide="BOTTOM" labelsVisible="true"
+                                        prefHeight="240.0" VBox.vgrow="ALWAYS"/>
+                           </children>
+                        </VBox>
+
+                        <!-- Income Bar Chart Card -->
+                        <VBox alignment="TOP_CENTER" spacing="10" styleClass="card" HBox.hgrow="ALWAYS" prefHeight="320.0">
+                           <children>
+                              <Label style="-fx-font-size: 16px; -fx-text-fill: #333333;" text="Income This Month"/>
+                              <Label styleClass="category" text="Weekly revenue breakdown"/>
+                              <BarChart fx:id="incomeChart" animated="true" legendVisible="false"
+                                        prefHeight="240.0" VBox.vgrow="ALWAYS">
+                                 <xAxis><CategoryAxis fx:id="incomeXAxis"/></xAxis>
+                                 <yAxis><NumberAxis fx:id="incomeYAxis"/></yAxis>
                               </BarChart>
                            </children>
                         </VBox>
                      </children>
                   </HBox>
+
                </children>
             </VBox>
          </center>
+
       </BorderPane>
    </children>
 </AnchorPane>

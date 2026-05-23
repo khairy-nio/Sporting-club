@@ -2,6 +2,7 @@ package com.example.club_sporting_final.admin.Controller;
 
 import com.example.club_sporting_final.admin.module.Subscription;
 import com.example.club_sporting_final.utils.DatabaseConnection;
+import com.example.club_sporting_final.utils.EmailSender;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -86,7 +87,7 @@ public class SubscriptionsManagementController {
     @FXML
     private void returnToDashboard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/club_sporting_final/admin/Dashboard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/club_sporting_final/admin/DashBoard.fxml"));
             Stage stage = (Stage) searchField.getScene().getWindow(); // Use a component to get the current stage
             stage.setScene(new Scene(root));
             stage.setTitle("Dashboard");
@@ -369,6 +370,43 @@ public class SubscriptionsManagementController {
             showError("Database Error", "Could not fetch inactive subscriptions: " + e.getMessage());
         }
         subscriptionTable.setItems(subscriptions);
+    }
+
+    /**
+     * Feature 6: Send email reminders to members with subscriptions expiring within 7 days.
+     */
+    @FXML
+    private void handleSendReminders() {
+        String query = "SELECT s.SubscriptionID, s.EndDate, m.Name, m.Email " +
+                       "FROM subscriptions s JOIN members m ON s.MemberID = m.MemberID " +
+                       "WHERE s.EndDate BETWEEN date('now') AND date('now', '+7 days')";
+        int sentCount = 0;
+        int failCount = 0;
+        try (Connection conn = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String name = rs.getString("Name");
+                String email = rs.getString("Email");
+                String endDate = rs.getString("EndDate");
+                if (email != null && !email.isEmpty()) {
+                    String subject = "Subscription Expiry Reminder — Sport Hub";
+                    String body = "Dear " + name + ",\n\n" +
+                                  "This is a friendly reminder that your subscription at Sport Hub " +
+                                  "is expiring on " + endDate + ".\n\n" +
+                                  "Please visit us or contact us to renew your membership.\n\n" +
+                                  "Best regards,\nSport Hub Management";
+                    boolean sent = EmailSender.sendEmail(email, subject, body);
+                    if (sent) sentCount++; else failCount++;
+                }
+            }
+        } catch (SQLException e) {
+            showError("Database Error", "Could not fetch expiring subscriptions: " + e.getMessage());
+            return;
+        }
+        showAlert(Alert.AlertType.INFORMATION, "Reminders Sent",
+                "Sent: " + sentCount + " email(s)\nFailed/Skipped: " + failCount);
     }
 
     private void showError(String title, String message) {

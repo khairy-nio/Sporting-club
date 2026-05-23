@@ -130,7 +130,7 @@ public class EditMemberController {
                 stmt.setString(2, email);
                 stmt.setString(3, phone);
                 stmt.setBoolean(4, isSubscribed);
-                stmt.setInt(5, selectedTeam != null ? selectedTeam.getTeamID() : 0); // Set 0 if no team selected
+                stmt.setObject(5, selectedTeam != null ? selectedTeam.getTeamID() : null); // Set NULL if no team selected
                 stmt.setInt(6, member.getMemberID());
                 stmt.executeUpdate();
             }
@@ -150,31 +150,35 @@ public class EditMemberController {
 
         if (name.isEmpty()) {
             nameErrorLabel.setVisible(true);
+            nameErrorLabel.setManaged(true);
             valid = false;
         } else {
             nameErrorLabel.setVisible(false);
+            nameErrorLabel.setManaged(false);
         }
 
         if (!email.matches("^\\S+@\\S+\\.\\S+$")) {
             emailErrorLabel.setVisible(true);
+            emailErrorLabel.setManaged(true);
             valid = false;
         } else {
             emailErrorLabel.setVisible(false);
+            emailErrorLabel.setManaged(false);
         }
 
-        if (!phone.matches("\\d{10}")) {
+        if (!phone.matches("\\d{10,11}")) {
+            phoneErrorLabel.setText("Must be 10 or 11 digits");
             phoneErrorLabel.setVisible(true);
+            phoneErrorLabel.setManaged(true);
             valid = false;
         } else {
             phoneErrorLabel.setVisible(false);
+            phoneErrorLabel.setManaged(false);
         }
 
-        if (team == null) {
-            teamErrorLabel.setVisible(true);
-            valid = false;
-        } else {
-            teamErrorLabel.setVisible(false);
-        }
+        // Team selection is optional
+        teamErrorLabel.setVisible(false);
+        teamErrorLabel.setManaged(false);
 
         return valid;
     }

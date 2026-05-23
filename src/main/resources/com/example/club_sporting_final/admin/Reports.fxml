@@ -2,56 +2,67 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.ReportsController">
+<AnchorPane prefHeight="620.0" prefWidth="880.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.ReportsController">
 
-    <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="800.0" spacing="10" AnchorPane.topAnchor="10.0">
-        <Label style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;" text="Reports" />
+   <VBox alignment="TOP_LEFT" spacing="18" style="-fx-padding: 28;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <!-- Total Income and Expenses Section -->
-        <HBox alignment="CENTER" spacing="20">
-            <VBox alignment="CENTER" spacing="5" style="-fx-text-fill: white;">
-                <Label style="-fx-text-fill: white;" text="Total Income" />
-                <Label fx:id="totalIncomeLabel" style="-fx-font-size: 16px; -fx-text-fill: white;" text="0.0" />
-            </VBox>
-            <VBox alignment="CENTER" spacing="5">
-                <Label style="-fx-text-fill: white;" text="Total Expenses" />
-                <Label fx:id="totalExpensesLabel" style="-fx-text-fill: white;" text="0.0" />
-            </VBox>
-            <VBox alignment="CENTER" spacing="5">
-                <Label style="-fx-text-fill: white;" text="Net Balance" />
-                <Label fx:id="netBalanceLabel" style="-fx-text-fill: white;" text="0.0" />
-            </VBox>
-        </HBox>
+      <!-- ─── Header Row ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <Label text="📊  Financial Reports" styleClass="header-label"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <Label text="Filter by:" styleClass="category"/>
+         <ChoiceBox fx:id="filterChoiceBox" prefWidth="150"/>
+         <Button onAction="#handleApplyFilter" prefHeight="38" prefWidth="110" text="Apply Filter"/>
+         <Button fx:id="generateReportButton" onAction="#handleGenerateReport" styleClass="success-button" prefHeight="38" prefWidth="120" text="Export CSV"/>
+      </HBox>
 
-        <!-- Filters and Sorting Section -->
-        <HBox alignment="CENTER" spacing="20">
-            <Label style="-fx-text-fill: white;" text="Filter By:" />
-            <ChoiceBox fx:id="filterChoiceBox" prefWidth="150.0" />
-            <Button onAction="#handleApplyFilter" text="Apply Filter" />
-        </HBox>
 
-        <!-- Reports Table Section -->
-        <TableView fx:id="reportsTable" prefHeight="400.0" prefWidth="780.0">
-            <columns>
-                <TableColumn fx:id="columnName" prefWidth="200.0" text="Name" />
-                <TableColumn fx:id="columnCategory" prefWidth="150.0" text="Category" />
-                <TableColumn fx:id="columnAmount" prefWidth="150.0" text="Amount" />
-                <TableColumn fx:id="columnDate" prefWidth="150.0" text="Date" />
-                <TableColumn fx:id="columnDetails" prefWidth="130.0" text="Details" />
-            </columns>
-        </TableView>
+      <!-- ─── Table ─── -->
+      <TableView fx:id="reportsTable" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="columnName" text="Name / Expense Type" prefWidth="250"/>
+            <TableColumn fx:id="columnCategory" text="Category" prefWidth="130"/>
+            <TableColumn fx:id="columnAmount" text="Amount ($)" prefWidth="120"/>
+            <TableColumn fx:id="columnDate" text="Date" prefWidth="130"/>
+            <TableColumn fx:id="columnDetails" text="Details" prefWidth="180"/>
+         </columns>
+      </TableView>
 
-        <!-- Generate Report and Back Buttons -->
-        <HBox alignment="CENTER" spacing="20">
-            <Button onAction="#handleGenerateReport" text="Generate Report" />
-            <Button onAction="#goBackToDashboard" styleClass="primary-button" text="Back to Dashboard" />
-        </HBox>
-    </VBox>
+
+      <!-- ─── Summary Cards & Actions ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <VBox alignment="CENTER" spacing="5" prefWidth="160" prefHeight="70" styleClass="card">
+            <Label text="TOTAL INCOME" styleClass="category" style="-fx-font-size: 11px;"/>
+            <Label fx:id="totalIncomeLabel" style="-fx-text-fill: #87CB16; -fx-font-size: 22px; -fx-font-weight: bold;" text="\$0.00"/>
+         </VBox>
+
+         <VBox alignment="CENTER" spacing="5" prefWidth="160" prefHeight="70" styleClass="card">
+            <Label text="TOTAL EXPENSE" styleClass="category" style="-fx-font-size: 11px;"/>
+            <Label fx:id="totalExpensesLabel" style="-fx-text-fill: #FF4A55; -fx-font-size: 22px; -fx-font-weight: bold;" text="\$0.00"/>
+         </VBox>
+
+         <VBox alignment="CENTER" spacing="5" prefWidth="160" prefHeight="70" styleClass="card">
+            <Label text="NET BALANCE" styleClass="category" style="-fx-font-size: 11px;"/>
+            <Label fx:id="netBalanceLabel" style="-fx-text-fill: #1DC7EA; -fx-font-size: 22px; -fx-font-weight: bold;" text="\$0.00"/>
+         </VBox>
+
+         <Region HBox.hgrow="ALWAYS"/>
+         <Button onAction="#goBackToDashboard" text="← Back to Dashboard" prefHeight="38" prefWidth="170"/>
+      </HBox>
+
+   </VBox>
 </AnchorPane>

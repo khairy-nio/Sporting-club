@@ -94,7 +94,7 @@ public class AddMemberController {
 
         if (!validateInputs(name, email, phone, selectedTeam, planType)) return;
 
-        String insertMemberQuery = "INSERT INTO members (Name, Email, PhoneNumber, SubscriptionStatus) VALUES (?, ?, ?, ?)";
+        String insertMemberQuery = "INSERT INTO members (Name, Email, PhoneNumber, SubscriptionStatus, TeamID) VALUES (?, ?, ?, ?, ?)";
         String associateTeamQuery = "INSERT INTO team_members (MemberID, TeamID) VALUES (?, ?)";
         String insertSubscriptionQuery = "INSERT INTO subscriptions (MemberID, PlanType, StartDate, EndDate, Amount) VALUES (?, ?, ?, ?, ?)";
 
@@ -108,6 +108,7 @@ public class AddMemberController {
                 memberStmt.setString(2, email);
                 memberStmt.setString(3, phone);
                 memberStmt.setBoolean(4, isSubscribed);
+                memberStmt.setObject(5, selectedTeam != null ? selectedTeam.getTeamID() : null);
                 memberStmt.executeUpdate();
 
                 ResultSet rs = memberStmt.getGeneratedKeys();
@@ -155,16 +156,20 @@ public class AddMemberController {
     }
 
     private boolean validateInputs(String name, String email, String phone, Team team, String planType) {
-        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || team == null) {
-            showAlert(Alert.AlertType.ERROR, "Validation Error", "All fields are required.");
+        if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Name, email, and phone number are required.");
             return false;
         }
         if (!email.matches("\\S+@\\S+\\.\\S+")) {
             showAlert(Alert.AlertType.ERROR, "Validation Error", "Invalid email format.");
             return false;
         }
-        if (!phone.matches("\\d{11}")) {
-            showAlert(Alert.AlertType.ERROR, "Validation Error", "Phone number must be 10 digits.");
+        if (!phone.matches("\\d{10,11}")) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Phone number must be 10 or 11 digits.");
+            return false;
+        }
+        if (subscriptionStatus.isSelected() && planType == null) {
+            showAlert(Alert.AlertType.ERROR, "Validation Error", "Please select a subscription plan type.");
             return false;
         }
         return true;
@@ -172,7 +177,12 @@ public class AddMemberController {
 
     private String getSelectedPlanType() {
         RadioButton selectedPlan = (RadioButton) planToggleGroup.getSelectedToggle();
-        return selectedPlan != null ? selectedPlan.getText().toLowerCase() : null;
+        if (selectedPlan == null) return null;
+        String text = selectedPlan.getText().toLowerCase();
+        if (text.contains("monthly")) return "monthly";
+        if (text.contains("quarterly")) return "quarterly";
+        if (text.contains("yearly")) return "yearly";
+        return text;
     }
 
     private String calculateEndDate(String startDate, String planType) {
@@ -204,16 +214,16 @@ public class AddMemberController {
             return;
         }
 
-        String subject = "Welcome to Club Sporting!";
+        String subject = "Welcome to Sport Hub!";
         String messageBody = String.format(
-                "Dear %s,\n\nThank you for subscribing to our %s plan.\nYour subscription starts on %s and ends on %s.\n\nBest regards,\nClub Sporting Team",
+                "Dear %s,\n\nThank you for subscribing to our %s plan.\nYour subscription starts on %s and ends on %s.\n\nBest regards,\nSport Hub Team",
                 name, planType, startDate, endDate
         );
 
         try {
             EmailSender.sendEmail(email, subject, messageBody);
-        } catch (MessagingException e) {
-            showAlert(Alert.AlertType.ERROR, "Email Error", "Failed to send subscription email: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Warning: Failed to send welcome email: " + e.getMessage());
         }
     }
 

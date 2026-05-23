@@ -6,53 +6,59 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.MemberManagementController">
-    <!-- Header -->
-    <Label styleClass="header-label" text="Member Management" />
+<AnchorPane prefHeight="620.0" prefWidth="880.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.MemberManagementController">
 
-    <!-- Search Bar -->
-    <HBox prefHeight="36.0" prefWidth="800.0" spacing="10.0" style="-fx-alignment: center;">
-        <children>
-            <TextField fx:id="textSearch" prefHeight="30.0" prefWidth="207.0" promptText="Search by Name or ID" />
-            <Button fx:id="btSearch" mnemonicParsing="false" onAction="#searchMembers" prefHeight="30.0" prefWidth="100.0" text="Search" />
-        </children>
-    </HBox>
+   <VBox alignment="TOP_LEFT" spacing="18" style="-fx-padding: 28;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <!-- TableView for Members -->
-    <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="idColumn" text="ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="161.5999755859375" text="Name" />
-            <TableColumn fx:id="emailColumn" prefWidth="118.4000244140625" text="Email" />
-            <TableColumn fx:id="phoneColumn" prefWidth="160.79998779296875" text="Phone Number" />
-            <TableColumn fx:id="statusColumn" prefWidth="255.199951171875" text="Subscription Status" />
-        </columns>
-    </TableView>
+      <!-- ─── Header Row ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <Label text="👥  Member Management" styleClass="header-label"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <TextField fx:id="textSearch" prefWidth="250" prefHeight="38"
+                    promptText="🔍  Search by Name or ID"/>
+         <Button fx:id="btSearch" onAction="#searchMembers" prefHeight="38" prefWidth="100" text="Search"/>
+      </HBox>
 
-    <!-- Buttons for Member Actions -->
-    <HBox alignment="CENTER" spacing="10">
-        <Button fx:id="addButton" text="Add Member">
-            <tooltip>
-                <Tooltip text="Add a new member to the club" />
-            </tooltip>
-        </Button>
-        <Button fx:id="editButton" text="Edit Member">
-            <tooltip>
-                <Tooltip text="Edit the selected member's details" />
-            </tooltip>
-        </Button>
-        <Button fx:id="deleteButton" text="Delete Member">
-            <tooltip>
-                <Tooltip text="Delete the selected member" />
-            </tooltip>
-        </Button>
-        <Button fx:id="backButton" onAction="#returnToDashboard" text="Back to Dashboard">
-            <tooltip>
-                <Tooltip text="Return to the dashboard" />
-            </tooltip>
-        </Button>
-    </HBox>
-</VBox>
+      <!-- ─── Members Table ─── -->
+      <TableView fx:id="memberTable" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="190"/>
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="210"/>
+            <TableColumn fx:id="phoneColumn" text="Phone Number" prefWidth="155"/>
+            <TableColumn fx:id="statusColumn" text="Subscription Status" prefWidth="170"/>
+         </columns>
+      </TableView>
+
+      <!-- ─── Hint ─── -->
+      <Label text="💡 Double-click a member to view their full profile" styleClass="category"/>
+
+      <!-- ─── Action Buttons ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="12">
+         <Button fx:id="addButton" text="➕  Add Member" styleClass="primary-button" prefHeight="38" prefWidth="145">
+            <tooltip><Tooltip text="Add a new member to the club"/></tooltip>
+         </Button>
+         <Button fx:id="editButton" text="✏️  Edit Member" prefHeight="38" prefWidth="145">
+            <tooltip><Tooltip text="Edit the selected member's details"/></tooltip>
+         </Button>
+         <Button fx:id="deleteButton" text="🗑  Delete Member" styleClass="logout-button" prefHeight="38" prefWidth="145">
+            <tooltip><Tooltip text="Delete the selected member"/></tooltip>
+         </Button>
+         <Region HBox.hgrow="ALWAYS"/>
+         <Button fx:id="backButton" onAction="#returnToDashboard" text="← Back to Dashboard" prefHeight="38" prefWidth="170">
+            <tooltip><Tooltip text="Return to the dashboard"/></tooltip>
+         </Button>
+      </HBox>
+
+   </VBox>
+</AnchorPane>

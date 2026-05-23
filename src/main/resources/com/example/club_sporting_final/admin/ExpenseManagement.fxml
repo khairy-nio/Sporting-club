@@ -7,52 +7,68 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="454.0" prefWidth="600.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.ExpenseManagementController">
-    <VBox alignment="CENTER" layoutX="11.2" prefHeight="429.0" prefWidth="579.0" spacing="10" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-        <TableView fx:id="expenseTable" prefHeight="200.0" prefWidth="580.0">
-            <columns>
-                <TableColumn fx:id="expenseIDColumn" prefWidth="100.0" text="Expense ID" />
-                <TableColumn fx:id="expenseTypeColumn" prefWidth="150.0" text="Expense Type" />
-                <TableColumn fx:id="amountColumn" prefWidth="100.0" text="Amount" />
-                <TableColumn fx:id="dateColumn" prefWidth="204.79995727539062" text="Date" />
-            </columns>
-        </TableView>
+<AnchorPane prefHeight="620.0" prefWidth="880.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.ExpenseManagementController">
 
-        <GridPane hgap="10" vgap="10">
-            <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Expense Type:" />
-            <TextField fx:id="expenseTypeField" GridPane.columnIndex="1" />
-            <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Amount:" GridPane.rowIndex="1" />
-            <TextField fx:id="amountField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="Date:" GridPane.rowIndex="2" />
-            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <columnConstraints>
-                <ColumnConstraints />
-                <ColumnConstraints />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-            </rowConstraints>
-        </GridPane>
+   <VBox alignment="TOP_LEFT" spacing="18" style="-fx-padding: 28;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-        <HBox alignment="CENTER" spacing="10">
-            <Button fx:id="addButton" onAction="#handleAddExpense" style="-fx-font-weight: bold;" text="Add Expense" />
-            <Button fx:id="editButton" onAction="#handleEditExpense" style="-fx-font-weight: bold;" text="Edit Expense" />
-            <Button fx:id="deleteButton" onAction="#handleDeleteExpense" style="-fx-font-weight: bold;" text="Delete Expense" />
-            <Button fx:id="clearButton" onAction="#handleClearFields" style="-fx-font-weight: bold;" text="Clear Fields" />
-        </HBox>
+      <!-- ─── Header ─── -->
+      <Label text="💰  Expense Management" styleClass="header-label"/>
 
-        <!-- Back to Dashboard Button -->
-        <HBox alignment="CENTER" spacing="10">
-            <Button fx:id="backButton" onAction="#handleBackToDashboard" style="-fx-font-weight: bold;" text="Back to Dashboard" />
-        </HBox>
-    </VBox>
+      <!-- ─── Form Card ─── -->
+      <HBox spacing="15" alignment="CENTER_LEFT" styleClass="form-card">
+         
+         <VBox spacing="8">
+            <Label text="Expense Type:" styleClass="category"/>
+            <TextField fx:id="expenseTypeField" prefWidth="180" promptText="e.g. Equipment"/>
+         </VBox>
+
+         <VBox spacing="8">
+            <Label text="Amount:" styleClass="category"/>
+            <TextField fx:id="amountField" prefWidth="140" promptText="0.00"/>
+         </VBox>
+
+         <VBox spacing="8">
+            <Label text="Date:" styleClass="category"/>
+            <DatePicker fx:id="datePicker" prefWidth="150"/>
+         </VBox>
+
+         <Region HBox.hgrow="ALWAYS"/>
+
+         <VBox alignment="BOTTOM_CENTER" spacing="10">
+             <HBox spacing="10">
+                <Button fx:id="addButton" onAction="#handleAddExpense" styleClass="primary-button" prefHeight="38" prefWidth="110" text="➕ Add"/>
+                <Button fx:id="editButton" onAction="#handleEditExpense" prefHeight="38" prefWidth="110" text="✏️ Edit"/>
+             </HBox>
+             <HBox spacing="10">
+                <Button fx:id="clearButton" onAction="#handleClearFields" prefHeight="38" prefWidth="110" text="🧹 Clear"/>
+                <Button fx:id="deleteButton" onAction="#handleDeleteExpense" styleClass="logout-button" prefHeight="38" prefWidth="110" text="🗑 Delete"/>
+             </HBox>
+         </VBox>
+      </HBox>
+
+      <!-- ─── Table ─── -->
+      <TableView fx:id="expenseTable" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="expenseIDColumn" text="ID" prefWidth="80"/>
+            <TableColumn fx:id="expenseTypeColumn" text="Expense Type" prefWidth="250"/>
+            <TableColumn fx:id="amountColumn" text="Amount" prefWidth="180"/>
+            <TableColumn fx:id="dateColumn" text="Date" prefWidth="180"/>
+         </columns>
+      </TableView>
+
+      <!-- ─── Footer ─── -->
+      <HBox alignment="CENTER_RIGHT">
+         <Button fx:id="backButton" onAction="#handleBackToDashboard" text="← Back to Dashboard" prefHeight="38" prefWidth="170"/>
+      </HBox>
+
+   </VBox>
 </AnchorPane>

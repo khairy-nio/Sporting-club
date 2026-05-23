@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.TeamManagementController">
-    <!-- Header Section -->
-    <HBox alignment="CENTER" prefHeight="36.0" prefWidth="800.0" spacing="10.0">
-        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Team Management" />
-    </HBox>
+<AnchorPane prefHeight="620.0" prefWidth="880.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.TeamManagementController">
 
-    <!-- Search Section -->
-    <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
-        <TextField fx:id="searchField" promptText="Search by ID or name" />
-        <Button fx:id="searchButton" onAction="#searchTeam" text="Search" />
-    </HBox>
+   <VBox alignment="TOP_LEFT" spacing="18" style="-fx-padding: 28;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
-    <!-- TableView Section -->
-    <TableView fx:id="teamTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="idColumn" prefWidth="100" text="Team ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="200" text="Team Name" />
-            <TableColumn fx:id="coachColumn" prefWidth="200" text="Coach Name" />
-            <TableColumn fx:id="categoryColumn" prefWidth="150" text="Category" />
-            <TableColumn fx:id="memberCountColumn" prefWidth="150" text="Member Count" />
-        </columns>
-    </TableView>
+      <!-- ─── Header Row ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <Label text="🏆  Team Management" styleClass="header-label"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <TextField fx:id="searchField" prefWidth="250" prefHeight="38"
+                    promptText="🔍  Search Teams"/>
+         <Button fx:id="searchButton" onAction="#searchTeam" prefHeight="38" prefWidth="100" text="Search"/>
+      </HBox>
 
-    <!-- Action Buttons -->
-    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-        <Button fx:id="addButton" onAction="#addTeam" text="Add Team" />
-        <Button fx:id="editButton" onAction="#editTeam" text="Edit Team" />
-        <Button fx:id="deleteButton" onAction="#deleteTeam" text="Delete Team" />
-        <Button fx:id="backButton" onAction="#returnToDashboard" text="Back to Dashboard" />
-    </HBox>
-</VBox>
+      <!-- ─── Table ─── -->
+      <TableView fx:id="teamTable" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nameColumn" text="Team Name" prefWidth="200"/>
+            <TableColumn fx:id="coachColumn" text="Coach Name" prefWidth="200"/>
+            <TableColumn fx:id="categoryColumn" text="Category" prefWidth="150"/>
+            <TableColumn fx:id="memberCountColumn" text="Members Count" prefWidth="120"/>
+         </columns>
+      </TableView>
+
+      <!-- ─── Action Buttons ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="12">
+         <Button fx:id="addButton" text="➕  Add Team" onAction="#addTeam" styleClass="primary-button" prefHeight="38" prefWidth="140"/>
+         <Button fx:id="editButton" text="✏️  Edit Team" onAction="#editTeam" prefHeight="38" prefWidth="140"/>
+         <Button fx:id="deleteButton" text="🗑  Delete Team" onAction="#deleteTeam" styleClass="logout-button" prefHeight="38" prefWidth="140"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <Button fx:id="backButton" onAction="#returnToDashboard" text="← Back to Dashboard" prefHeight="38" prefWidth="170"/>
+      </HBox>
+
+   </VBox>
+</AnchorPane>

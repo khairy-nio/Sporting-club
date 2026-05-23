@@ -163,7 +163,7 @@ public class TeamManagementController {
     @FXML
     private void returnToDashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/club_sporting_final/admin/DashBoard.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) backButton.getScene().getWindow();

@@ -7,42 +7,51 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="869.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.club_sporting_final.admin.Controller.SubscriptionsManagementController">
-   <children>
-      <VBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="-3.0" prefHeight="680.0" prefWidth="869.0" spacing="10" stylesheets="@Styles.css">
-         <children>
-            <Label prefHeight="69.0" prefWidth="258.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Subscriptions Management" />
-            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
-               <children>
-                  <TextField fx:id="searchField" promptText="Search by Member Name or Plan" />
-                  <Button fx:id="searchButton" onAction="#searchSubscriptions" text="Search" />
-               </children>
-            </HBox>
-            <TableView fx:id="subscriptionTable" VBox.vgrow="ALWAYS">
-                <columns>
-                    <TableColumn fx:id="idColumn" prefWidth="50" text="ID" />
-                    <TableColumn fx:id="memberColumn" prefWidth="100" text="Member ID" />
-                    <TableColumn fx:id="planColumn" prefWidth="196.0000457763672" text="Subscription Plan" />
-                    <TableColumn fx:id="startDateColumn" prefWidth="148.0" text="Start Date" />
-                    <TableColumn fx:id="endDateColumn" prefWidth="165.60003662109375" text="End Date" />
-                    <TableColumn fx:id="amountColumn" prefWidth="199.20001220703125" text="Amount" />
-                </columns>
-            </TableView>
-            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="58.0" prefWidth="458.0" spacing="10" style="-fx-padding: 10;">
-                     <children>
-                        <Button fx:id="backButton" onAction="#returnToDashboard" text="Back to Dashboard" />
-                     </children>
-                  </HBox>
-                  <Button fx:id="editButton" onAction="#editSubscription" stylesheets="@Styles.css" text="Manage" />
-                  <Button fx:id="deleteButton" onAction="#deleteSubscription" text="Delete" />
-                  <Button fx:id="inactiveButton" onAction="#showInactiveSubscriptions" text="Show Inactive" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="620.0" prefWidth="880.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.SubscriptionsManagementController">
+
+   <VBox alignment="TOP_LEFT" spacing="18" style="-fx-padding: 28;"
+         AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+      <!-- ─── Header Row ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="15">
+         <Label text="💳  Subscriptions Management" styleClass="header-label"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <TextField fx:id="searchField" prefWidth="250" prefHeight="38"
+                    promptText="🔍  Search Member ID or Name"/>
+         <Button fx:id="searchButton" onAction="#searchSubscriptions" prefHeight="38" prefWidth="100" text="Search"/>
+      </HBox>
+
+      <!-- ─── Table ─── -->
+      <TableView fx:id="subscriptionTable" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="subIdColumn" text="Sub ID" prefWidth="70"/>
+            <TableColumn fx:id="memberIdColumn" text="Member ID" prefWidth="80"/>
+            <TableColumn fx:id="memberNameColumn" text="Member Name" prefWidth="200"/>
+            <TableColumn fx:id="planTypeColumn" text="Plan Type" prefWidth="120"/>
+            <TableColumn fx:id="startDateColumn" text="Start Date" prefWidth="120"/>
+            <TableColumn fx:id="endDateColumn" text="End Date" prefWidth="120"/>
+            <TableColumn fx:id="amountColumn" text="Amount ($)" prefWidth="100"/>
+         </columns>
+      </TableView>
+
+      <!-- ─── Action Buttons ─── -->
+      <HBox alignment="CENTER_LEFT" spacing="12">
+         <!-- BUG 7 Fix: Added Add Subscription button to UI -->
+         <Button fx:id="addButton" text="➕  Add Subscription" onAction="#addSubscription" styleClass="primary-button" prefHeight="38" prefWidth="160"/>
+         <Button fx:id="editButton" text="✏️  Manage" onAction="#editSubscription" prefHeight="38" prefWidth="120"/>
+         <Button fx:id="inactiveButton" text="👁  Show Inactive" onAction="#showInactiveSubscriptions" prefHeight="38" prefWidth="135"/>
+         <Button fx:id="deleteButton" text="🗑  Delete" onAction="#deleteSubscription" styleClass="logout-button" prefHeight="38" prefWidth="110"/>
+         <Region HBox.hgrow="ALWAYS"/>
+         <Button fx:id="sendRemindersButton" onAction="#handleSendReminders" styleClass="success-button" prefHeight="38" prefWidth="160" text="📧  Send Reminders"/>
+         <Button fx:id="backButton" onAction="#returnToDashboard" text="← Back" prefHeight="38" prefWidth="90"/>
+      </HBox>
+
+   </VBox>
 </AnchorPane>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="620.0" prefWidth="860.0" stylesheets="@Styles.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.club_sporting_final.admin.Controller.AttendanceController">
+
+   <VBox alignment="TOP_CENTER" prefHeight="620.0" prefWidth="860.0" spacing="15"
+         style="-fx-padding: 20;" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+         AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+      <Label text="📋  Attendance Tracking" styleClass="header-label"/>
+
+      <!-- ─── Input Row ─── -->
+      <HBox spacing="12" alignment="CENTER_LEFT" styleClass="form-card">
+         <Label text="Member ID:" styleClass="category"/>
+         <TextField fx:id="memberIdField" prefWidth="100" promptText="ID"/>
+         <Label text="Session:" styleClass="category"/>
+         <ChoiceBox fx:id="sessionTypeBox" prefWidth="150"/>
+         <Label text="Date:" styleClass="category"/>
+         <DatePicker fx:id="datePicker" prefWidth="150"/>
+         <Label text="Status:" styleClass="category"/>
+         <ChoiceBox fx:id="statusBox" prefWidth="120"/>
+         <Button text="✅  Mark" onAction="#handleMarkAttendance" styleClass="primary-button"
+                 prefHeight="36" prefWidth="90"/>
+      </HBox>
+
+      <!-- ─── Search Row ─── -->
+      <HBox spacing="10" alignment="CENTER_LEFT">
+         <Label text="Search Member ID:" styleClass="category"/>
+         <TextField fx:id="searchField" prefWidth="150" promptText="Member ID or name"/>
+         <Button text="🔍  Search" onAction="#handleSearch" prefHeight="34" prefWidth="100"/>
+         <Button text="Show All" onAction="#handleShowAll" prefHeight="34" prefWidth="90"/>
+      </HBox>
+
+      <!-- ─── Table ─── -->
+      <TableView fx:id="attendanceTable" VBox.vgrow="ALWAYS" prefWidth="820.0">
+         <columns>
+            <TableColumn fx:id="colID" text="ID" prefWidth="55"/>
+            <TableColumn fx:id="colMemberID" text="Member ID" prefWidth="100"/>
+            <TableColumn fx:id="colMemberName" text="Name" prefWidth="170"/>
+            <TableColumn fx:id="colDate" text="Date" prefWidth="130"/>
+            <TableColumn fx:id="colSession" text="Session Type" prefWidth="170"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+         </columns>
+      </TableView>
+
+      <!-- ─── Bottom Buttons ─── -->
+      <HBox alignment="CENTER_RIGHT" spacing="12">
+         <Button text="🗑  Delete Selected" onAction="#handleDelete" styleClass="logout-button"
+                 prefHeight="36" prefWidth="160"/>
+         <Button text="← Back to Dashboard" onAction="#handleBack" prefHeight="36" prefWidth="180"/>
+      </HBox>
+
+   </VBox>
+</AnchorPane>
